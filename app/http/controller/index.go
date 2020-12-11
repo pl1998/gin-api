@@ -11,11 +11,9 @@ type IndexController struct {
 
 var router *gin.Engine
 
-func List(c *gin.Context) ()  {
 
-	router.LoadHTMLFiles("./../.././templates/index.tmpl")
-
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"title": "Posts",
+func HomeIndex(c *gin.Context) () {
+	c.HTML(http.StatusOK, "home/index.tmpl", gin.H{
+		"title": "home page",
 	})
 }

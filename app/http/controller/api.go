@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"goproject/app/http/models/article"
 	"goproject/app/log"
+	"goproject/bootstrap"
 	"net/http"
 )
 
@@ -24,13 +25,12 @@ func Test(c *gin.Context) {
 
 	articles,err :=article.GetAll()
 
-	fmt.Print(articles)
-
+	path :=bootstrap.GetCurrentPath()
+	fmt.Print(path)
 	if err != nil {
 		log.LogError(err)
 	}else {
 		fmt.Println(articles)
-
 		c.JSON(http.StatusOK,articles)
 	}
 }

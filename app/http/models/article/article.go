@@ -1,7 +1,7 @@
 package article
 
 import (
-	"goproject/database"
+	"goproject/pkg/model"
 	"strconv"
 )
 type BaseModel struct {
@@ -19,7 +19,7 @@ func GetAll() ([]Articles, error) {
 
 	var articles []Articles
 
-	if err := database.DB.Find(&articles).Error; err != nil {
+	if err := model.DB.Find(&articles).Error; err != nil {
 		return articles, err
 	}
 

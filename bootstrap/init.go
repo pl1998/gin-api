@@ -1,23 +1,21 @@
 package bootstrap
 
 import (
-	"goproject/database"
+	"goproject/pkg/config"
+	"goproject/pkg/model"
 	"time"
 )
-
-
-
 func SetupDB() {
 
-	db := database.ConnectDB()
+	db := model.ConnectDB()
 
 	sqlDB,_ :=db.DB()
 
-	sqlDB.SetMaxOpenConns(50)
+	sqlDB.SetMaxOpenConns(config.GetInt("database.mysql.max_open_connections"))
 	//设置最大空闲数
-	sqlDB.SetMaxIdleConns(25)
+	sqlDB.SetMaxIdleConns(config.GetInt("database.mysql.max_idle_connections"))
 	//设置每个连接的超时时间
-	sqlDB.SetConnMaxLifetime(5*time.Minute)
+	sqlDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
 }
 
 
