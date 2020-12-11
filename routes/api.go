@@ -11,8 +11,6 @@ var router *gin.Engine
 
 //注册api
 func RegisterApiRoutes(router *gin.Engine) {
-
-
 	//api分组以及中间件
 	api := router.Group("/api").Use(middleware.Auth())
 	{

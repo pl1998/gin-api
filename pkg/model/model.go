@@ -18,6 +18,7 @@ type BaseModel struct {
 
 // 初始化 grom
 func ConnectDB() *gorm.DB {
+
 	var err error
 
 	var(
