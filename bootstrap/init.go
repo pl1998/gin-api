@@ -3,8 +3,12 @@ package bootstrap
 import (
 	"goproject/pkg/config"
 	"goproject/pkg/model"
+	"goproject/pkg/redis"
 	"time"
 )
+
+
+
 func SetupDB() {
 
 	db := model.ConnectDB()
@@ -16,6 +20,9 @@ func SetupDB() {
 	sqlDB.SetMaxIdleConns(config.GetInt("database.mysql.max_idle_connections"))
 	//设置每个连接的超时时间
 	sqlDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
+
+
+	redis.InitClient()
 }
 
 
