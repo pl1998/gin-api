@@ -19,5 +19,12 @@ func init() {
 
 		// gorilla/sessions 在 Cookie 中加密数据时使用
 		"key": config.Env("APP_KEY", "33446a9dcf9ea060a0a6532b166da32f304af0de"),
+
+		//jwt 授权登录
+		"jwt": map[string]interface{}{
+			"sign_key":config.Env("JWT_SIGN_KEY"),
+			"expiration_time":config.Env("JWT_EXPIRATION_TIME"),
+		},
+		"base64":config.Env("BASE64_ENCRYPT"),
 	})
 }
