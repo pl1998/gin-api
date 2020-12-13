@@ -1,25 +1,15 @@
 package helpler
 
 import (
-	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
-func GetPwd(pwd string) []byte {
-
-	_, err := fmt.Scan(&pwd)
-	if err != nil {
-		log.Println(err)
-	}
-	return []byte(pwd)
-
-}
-
 
 //加密算法
-func HashAndSalt(pwd []byte) string {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+func HashAndSalt(pwd string) string {
+	hash,err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
+
 	if err != nil {
 		log.Println(err)
 	}
@@ -27,12 +17,12 @@ func HashAndSalt(pwd []byte) string {
 }
 
 //解密算法
-func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
-
+func ComparePasswords(hashedPwd string, plainPwd string) bool {
 	byteHash := []byte(hashedPwd)
-	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
+	plainPwds := []byte(plainPwd)
+
+	err := bcrypt.CompareHashAndPassword(byteHash, plainPwds)
 	if err != nil {
-		log.Println(err)
 		return false
 	}
 	return true

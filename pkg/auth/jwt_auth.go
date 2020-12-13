@@ -58,7 +58,6 @@ func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
 
 // 解析Tokne
 func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
-
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.SigningKey, nil
 	})
@@ -100,3 +99,4 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 	}
 	return "", TokenInvalid
 }
+// GetDataByTime 一个需要token认证的测试接口
