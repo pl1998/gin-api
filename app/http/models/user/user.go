@@ -2,6 +2,7 @@ package user
 
 import (
 	"goproject/pkg/model"
+	"time"
 )
 
 type Users struct {
@@ -25,6 +26,19 @@ func GetUsers(email string) (Users,error) {
 	}
 
 	return user,nil
+}
+
+
+func (a Users) CreateTimeAt() string{
+	return time.Unix(a.CreateTime,0).Format("2006-01-02 15:04:05")
+}
+
+func (a Users) GetAvatar() string {
+	if a.Avatar =="" {
+		return "https://together.24e.co/qsj_default_avatar.png"
+	}
+
+	return a.Avatar
 }
 
 

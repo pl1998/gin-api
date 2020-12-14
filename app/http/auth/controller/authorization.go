@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"time"
 )
+
 type AuthorizationController struct {}
 // 用户登录
 func (*AuthorizationController) Login(c *gin.Context) {
@@ -34,6 +35,7 @@ func (*AuthorizationController) Login(c *gin.Context) {
 		})
 	} else {
 		result :=model.DB.Select("password,id").Where("email=?",email).First(&user)
+
 		if result.Error != nil {
 			c.JSON(http.StatusOK, map[string]interface{}{
 				"code": 500,
@@ -41,13 +43,14 @@ func (*AuthorizationController) Login(c *gin.Context) {
 			})
 		} else {
 			user_bool := helpler.ComparePasswords(user.Password,password)
+
 			if user_bool {
 				//颁发token
 				generateToken(c,user)
 			}else {
 				c.JSON(http.StatusOK, map[string]interface{}{
 					"code": 500,
-					"msg":  "账号不存在",
+					"msg":  "密码错误",
 				})
 			}
 		}
@@ -75,8 +78,8 @@ func (*AuthorizationController) Users(c *gin.Context) {
 		"data": map[string]interface{}{
 			"email":user.Email,
 			"username":user.Username,
-			"avatar":user.Avatar,
-			"create_time":time.Unix(user.CreateTime,0).Format("2006-01-02 15:04:05"),
+			"avatar":user.GetAvatar(),
+			"create_time":user.CreateTimeAt(),
 		},
 	})
 }
@@ -134,9 +137,11 @@ func generateToken(c *gin.Context,user userModel.Users) {
 	fmt.Println(expiration_time)
 
 	fmt.Println(user.ID)
+
 	j :=&jwt.JWT{
 		[]byte(sign_key),
 	}
+
 	claims := jwt.CustomClaims{strconv.FormatInt(user.ID,10),jwtgo.StandardClaims{
 		NotBefore: time.Now().Unix() - 1000,
 		ExpiresAt: time.Now().Unix() + int64(expiration_time),
